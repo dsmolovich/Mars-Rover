@@ -124,7 +124,7 @@ class NasaControl:
             self.rovers[data['name']] = rover
             return rover
 
-        # try to read landing info
+        # try to read rover instructions info
         data = self.parse_rover_instructions(line)
         if data:
             if data['name'] not in self.rovers:
