@@ -15,6 +15,8 @@ class PlateauIsUndefined(Exception):
 class RoverIsUndefined(Exception):
     pass
 
+class RoverHasAlreadyLanded(Exception):
+    pass
 
 class ParseError(Exception):
     pass
@@ -119,6 +121,8 @@ class NasaControl:
         if data:
             if not self.plateau:
                 raise PlateauIsUndefined('Plateau must be define before landing')
+            if data['name'] in self.rovers:
+                raise(RoverHasAlreadyLanded('Rover "{}" has already landed'.format(data['name'])))
             compass = Compass(data['direction'])
             rover = Rover(data['name'], data['x'], data['y'], compass, self.plateau)
             self.rovers[data['name']] = rover

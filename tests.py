@@ -73,13 +73,14 @@ class TestNasaControl(unittest.TestCase):
     def test_parse_landing_config(self):
         nasa_control = NasaControl()
         self.assertEqual(nasa_control.parse_landing_config('Rover1 Landing:1 2 N'), {'name': 'Rover1', 'x': 1, 'y': 2, 'direction': 'N'})
-        self.assertEqual(nasa_control.parse_landing_config('  Rover1   Landing :  3   5  N'), {'name': 'Rover1', 'x': 3, 'y': 5, 'direction': 'N'})
+        self.assertEqual(nasa_control.parse_landing_config('  Rover2   Landing :  3   5  N'), {'name': 'Rover2', 'x': 3, 'y': 5, 'direction': 'N'})
+        self.assertEqual(nasa_control.parse_landing_config('  HH-87 StarHopper     Landing :  3   5  N'), {'name': 'HH-87 StarHopper', 'x': 3, 'y': 5, 'direction': 'N'})
         self.assertEqual(nasa_control.parse_landing_config(''), False)
 
     def test_parse_rover_instructions(self):
         nasa_control = NasaControl()
         self.assertEqual(nasa_control.parse_rover_instructions('Rover1 Instructions:LMLMLMLMM'), {'name': 'Rover1', 'instructions': 'LMLMLMLMM'})
-        self.assertEqual(nasa_control.parse_rover_instructions('  Rover1   Instructions  : LMLMLMLMM  '), {'name': 'Rover1', 'instructions': 'LMLMLMLMM'})
+        self.assertEqual(nasa_control.parse_rover_instructions('  StarHopper HH-87   Instructions  : LMLMLMLMM  '), {'name': 'StarHopper HH-87', 'instructions': 'LMLMLMLMM'})
         self.assertEqual(nasa_control.parse_rover_instructions(''), False)
 
     def test_parse_line(self):
@@ -113,6 +114,9 @@ class TestNasaControl(unittest.TestCase):
         self.assertEqual(obj[1], 1)
         self.assertEqual(obj[2], 3)
         self.assertEqual(obj[3], 'N')
+
+        with self.assertRaises(RoverHasAlreadyLanded):
+            nasa_control.parse_line('Rover1 Landing:1 2 N')
 
 
 if __name__ == '__main__':

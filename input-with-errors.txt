@@ -6,3 +6,7 @@ Some random string
 Rover2 Instructions:MMRMMRMRRM
 Rover3 Landing: 6 0 E
 Rover2 Instructions:LMMMMM
+Plateau:2 2
+Rover2 Landing: 2 2 E
+Rover3 Landing: 2 2 E
+Rover3 Instructions:M
